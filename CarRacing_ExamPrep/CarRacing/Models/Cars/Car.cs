@@ -24,7 +24,7 @@ namespace CarRacing.Models.Cars.Contracts
             set
             {
                 
-                if (value==null || value == "")
+                if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentException(ExceptionMessages.InvalidCarMake);
                 }
@@ -37,7 +37,8 @@ namespace CarRacing.Models.Cars.Contracts
             get => model;
             set
             {
-                if (value == null || value == "")
+                
+                if (string.IsNullOrWhiteSpace(value))
                 {
                     throw new ArgumentException(ExceptionMessages.InvalidCarModel);
                 }

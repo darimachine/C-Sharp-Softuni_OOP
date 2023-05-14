@@ -41,15 +41,15 @@ namespace CarRacing.Core
             {
                 throw new ArgumentException(ExceptionMessages.InvalidCarType);
             }
-            cars.Add(car);
-            return $"Successfully added car {car.Make} {car.Model} ({VIN}).";
+            this.cars.Add(car);
+            return $"Successfully added car {car.Make} {car.Model} ({car.VIN}).";
             
         }
 
         public string AddRacer(string type, string username, string carVIN)
         {
             IRacer racer;
-            ICar car = cars.FindBy(carVIN);
+            ICar car = this.cars.FindBy(carVIN);
             if(car == null)
             {
                 throw new ArgumentException(ExceptionMessages.CarCannotBeFound);
@@ -66,7 +66,7 @@ namespace CarRacing.Core
             {
                 throw new ArgumentException(ExceptionMessages.InvalidRacerType);
             }
-            racers.Add(racer);
+            this.racers.Add(racer);
             return $"Successfully added racer {racer.Username}.";
         }
 
@@ -82,7 +82,7 @@ namespace CarRacing.Core
             {
                 throw new ArgumentException($"Racer {racerTwoUsername} cannot be found!");
             }
-            var result = map.StartRace(racerOne, racerTwo);
+            var result = this.map.StartRace(racerOne, racerTwo);
             return result;
             
         }
@@ -93,10 +93,7 @@ namespace CarRacing.Core
             var racersModifed=racers.Models.OrderByDescending(x => x.DrivingExperience).ThenBy(x => x.Username);
             foreach (var racer in racersModifed)
             {
-                result.AppendLine($"{racer.GetType().Name}: {racer.Username}");
-                result.AppendLine($"--Driving behavior: { racer.RacingBehavior}");
-                result.AppendLine($"--Driving experience: { racer.DrivingExperience}");
-                result.AppendLine($"--Car: {racer.Car.Make} {racer.Car.Model} ({racer.Car.VIN})");
+                result.AppendLine(racer.ToString());
             }
             return result.ToString().TrimEnd();
         }
